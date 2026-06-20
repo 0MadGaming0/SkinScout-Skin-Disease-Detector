@@ -1,0 +1,944 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+/* Global Font Override and Light Theme Background */
+html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    color: #1e293b !important; /* Slate 800 */
+}
+
+/* Base background: soft slate-blue/white gradient */
+div[data-testid="stAppViewContainer"] {
+    background: radial-gradient(circle at 10% 10%, rgba(14, 165, 233, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(99, 102, 241, 0.04) 0%, transparent 40%),
+                #f8fafc !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Typography styles for light theme */
+h1, h2, h3, h4, h5, h6 {
+    color: #0f172a !important; /* Dark Slate 900 */
+    font-weight: 800 !important;
+    letter-spacing: -0.5px !important;
+}
+
+div[data-testid="stMarkdownContainer"] p, 
+div[data-testid="stMarkdownContainer"] li,
+div[data-testid="stMarkdownContainer"] span {
+    color: #334155 !important; /* Charcoal Gray */
+}
+
+/* Make input placeholders clearly legible */
+::placeholder {
+    color: #64748b !important; /* Medium Slate Gray */
+    opacity: 0.85 !important;
+}
+::-webkit-input-placeholder {
+    color: #64748b !important;
+    opacity: 0.85 !important;
+}
+:-ms-input-placeholder {
+    color: #64748b !important;
+    opacity: 0.85 !important;
+}
+
+/* ----------------------------------------------------
+   INPUTS & WIDGETS WRAPPER STYLING (BUGS CORRECTION)
+   ---------------------------------------------------- */
+
+/* Base Streamlit Input Container Override (White background with clean border) */
+div[data-baseweb="input"] {
+    background-color: #ffffff !important;
+    border-radius: 12px !important;
+    border: 1px solid #cbd5e1 !important;
+    transition: all 0.2s ease !important;
+}
+div[data-baseweb="input"]:focus-within {
+    border-color: #0ea5e9 !important;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15) !important;
+    background-color: #ffffff !important;
+}
+
+/* Number inputs overrides (Unify text field and step buttons) */
+div[data-testid="stNumberInput"] div[data-baseweb="input"] {
+    border-radius: 12px 0 0 12px !important;
+    border-right: none !important;
+}
+
+/* Style the step buttons wrapper container */
+div[data-testid="stNumberInput"] div[data-baseweb="input"] + div,
+div[data-testid="stNumberInput"] div[data-baseweb="input"] ~ div {
+    border: 1px solid #cbd5e1 !important;
+    border-left: none !important;
+    border-radius: 0 12px 12px 0 !important;
+    background-color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    overflow: hidden !important;
+}
+
+/* Style individual step buttons to look clean and unified */
+div[data-testid="stNumberInput"] button {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #475569 !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 14px !important;
+    border-radius: 0 !important;
+    transition: background-color 0.2s ease !important;
+    min-width: 40px !important;
+}
+div[data-testid="stNumberInput"] button:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+/* Clean text colors on inputs */
+div[data-baseweb="input"] input {
+    background-color: transparent !important;
+    color: #0f172a !important; /* Dark Slate */
+    border: none !important;
+}
+
+/* Password Eye visibility toggle button override */
+div[data-baseweb="input"] button {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #64748b !important;
+}
+div[data-baseweb="input"] button:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+/* Selectboxes styled for light theme */
+div[data-baseweb="select"] {
+    background-color: #ffffff !important;
+    border-radius: 12px !important;
+    border: 1px solid #cbd5e1 !important;
+    transition: all 0.2s ease !important;
+}
+div[data-baseweb="select"] > div {
+    background-color: transparent !important;
+    color: #0f172a !important;
+}
+div[data-baseweb="select"] div[role="button"] {
+    color: #0f172a !important;
+}
+
+/* Textareas styled for light theme */
+div[data-testid="stTextArea"] textarea {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 12px !important;
+    transition: all 0.2s ease !important;
+}
+div[data-testid="stTextArea"] textarea:focus {
+    border-color: #0ea5e9 !important;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15) !important;
+}
+
+/* Text widgets titles/labels */
+label[data-testid="stWidgetLabel"] p {
+    color: #475569 !important; /* Slate Gray */
+    font-weight: 600 !important;
+}
+
+
+/* ----------------------------------------------------
+   LOGIN PAGE STYLING
+   ---------------------------------------------------- */
+
+/* Background styling - soft blue gradients */
+div[data-testid="stAppViewContainer"]:has(.login-card-marker) {
+    background: radial-gradient(circle at 15% 15%, rgba(14, 165, 233, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(99, 102, 241, 0.08) 0%, transparent 45%),
+                #f8fafc !important;
+}
+
+/* Hide standard Streamlit header on the login page */
+div[data-testid="stAppViewContainer"]:has(.login-card-marker) header {
+    display: none !important;
+}
+
+/* Style the column containing the marker as the login card */
+div[data-testid="stColumn"]:has(.login-card-marker) {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 28px !important;
+    padding: 3.5rem 2.5rem !important;
+    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.06) !important;
+    margin-top: 4rem !important;
+}
+
+/* Style the login button inside the login card */
+div[data-testid="stColumn"]:has(.login-card-marker) div[data-testid="stButton"] button {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 12px 24px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    width: 100% !important;
+    margin-top: 1rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.25) !important;
+}
+
+div[data-testid="stColumn"]:has(.login-card-marker) div[data-testid="stButton"] button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(14, 165, 233, 0.35) !important;
+    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%) !important;
+}
+
+/* Custom login header styling */
+.login-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+    color: #0284c7;
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    font-size: 32px;
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 16px -4px rgba(14, 165, 233, 0.2);
+    border: 1px solid #bae6fd;
+}
+
+.login-subtitle {
+    color: #64748b;
+}
+
+
+/* ----------------------------------------------------
+   HEADER NAVIGATION STYLING
+   ---------------------------------------------------- */
+
+.nav-container-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+}
+
+.nav-user-badge {
+    background-color: #f1f5f9;
+    color: #0284c7;
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid rgba(14, 165, 233, 0.15);
+    display: inline-block;
+}
+
+/* Logout Button Styling in Navigation */
+div[data-testid="stColumn"]:has(.nav-logout-marker) button {
+    background-color: transparent !important;
+    color: #ef4444 !important;
+    border: 1px solid rgba(239, 68, 68, 0.4) !important;
+    border-radius: 12px !important;
+    padding: 6px 14px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+    box-shadow: none !important;
+    margin-top: 0px !important; /* Centered natively via flex container */
+}
+div[data-testid="stColumn"]:has(.nav-logout-marker) button:hover {
+    background-color: #fef2f2 !important;
+    border-color: #ef4444 !important;
+    transform: translateY(-1px) !important;
+}
+
+/* History Button Styling in Navigation */
+div[data-testid="stColumn"]:has(.nav-history-marker) button {
+    background-color: transparent !important;
+    color: #7c3aed !important;
+    border: 1px solid rgba(124, 58, 237, 0.4) !important;
+    border-radius: 12px !important;
+    padding: 6px 14px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+    box-shadow: none !important;
+    margin-top: 0px !important;
+}
+div[data-testid="stColumn"]:has(.nav-history-marker) button:hover {
+    background-color: #f3e8ff !important;
+    border-color: #7c3aed !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Ensure all contents in the navbar columns are centered vertically and aligned */
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"] {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+}
+
+/* Hide empty markdown containers that serve as markers */
+div[data-testid="stMarkdownContainer"]:has(.nav-logout-marker),
+div[data-testid="stMarkdownContainer"]:has(.nav-history-marker) {
+    display: none !important;
+}
+
+/* Remove button bottom/top margin in navigation header */
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) button {
+    margin: 0 !important;
+}
+
+/* Center align columns in the header block vertically */
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) {
+    align-items: center !important;
+}
+
+
+/* ----------------------------------------------------
+   DASHBOARD CARD STYLING (3 COLS)
+   ---------------------------------------------------- */
+
+div[data-testid="stColumn"]:has(.card-marker-scanner),
+div[data-testid="stColumn"]:has(.card-marker-symptoms),
+div[data-testid="stColumn"]:has(.card-marker-history) {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 24px !important;
+    padding: 40px 32px !important;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-align: center;
+}
+
+div[data-testid="stColumn"]:has(.card-marker-scanner):hover,
+div[data-testid="stColumn"]:has(.card-marker-symptoms):hover,
+div[data-testid="stColumn"]:has(.card-marker-history):hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08) !important;
+}
+
+div[data-testid="stColumn"]:has(.card-marker-scanner):hover {
+    border-color: #0ea5e9 !important;
+}
+div[data-testid="stColumn"]:has(.card-marker-symptoms):hover {
+    border-color: #10b981 !important;
+}
+div[data-testid="stColumn"]:has(.card-marker-history):hover {
+    border-color: #7c3aed !important;
+}
+
+/* Card inner HTML layout styles */
+.card-icon-wrapper {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin-bottom: 24px;
+    box-shadow: inset 0 -4px 10px rgba(0,0,0,0.02);
+}
+.icon-scanner {
+    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+    color: #0284c7;
+    border: 1px solid #bae6fd;
+}
+.icon-symptoms {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    color: #059669;
+    border: 1px solid #a7f3d0;
+}
+.icon-history {
+    background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+    color: #7c3aed;
+    border: 1px solid #e9d5ff;
+}
+
+.card-title {
+    color: #0f172a;
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 12px 0;
+    letter-spacing: -0.5px;
+}
+.card-desc {
+    color: #475569;
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin: 0 0 28px 0;
+    height: 72px; /* Uniform height for alignment */
+    overflow: hidden;
+}
+
+/* Home Grid Buttons styling */
+div[data-testid="stColumn"]:has(.card-marker-scanner) button,
+div[data-testid="stColumn"]:has(.card-marker-symptoms) button,
+div[data-testid="stColumn"]:has(.card-marker-history) button {
+    border: none !important;
+    border-radius: 14px !important;
+    padding: 12px 24px !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    width: 100% !important;
+    color: #ffffff !important;
+    transition: all 0.2s ease !important;
+}
+div[data-testid="stColumn"]:has(.card-marker-scanner) button {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.25) !important;
+}
+div[data-testid="stColumn"]:has(.card-marker-scanner) button:hover {
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+div[data-testid="stColumn"]:has(.card-marker-symptoms) button {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25) !important;
+}
+div[data-testid="stColumn"]:has(.card-marker-symptoms) button:hover {
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+div[data-testid="stColumn"]:has(.card-marker-history) button {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
+    box-shadow: 0 4px 14px rgba(124, 58, 237, 0.25) !important;
+}
+div[data-testid="stColumn"]:has(.card-marker-history) button:hover {
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+
+
+/* ----------------------------------------------------
+   STYLIZED NEON CHATBOT BUTTON (AT BOTTOM CENTER)
+   ---------------------------------------------------- */
+
+div[data-testid="stColumn"]:has(.chatbot-btn-marker) button {
+    background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(167, 139, 250, 0.4) !important;
+    border-radius: 16px !important;
+    padding: 16px 32px !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.25), 0 4px 10px rgba(37, 99, 235, 0.2) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
+    width: 100% !important;
+}
+
+div[data-testid="stColumn"]:has(.chatbot-btn-marker) button:hover {
+    transform: translateY(-4px) scale(1.02) !important;
+    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.45), 0 6px 15px rgba(37, 99, 235, 0.35) !important;
+    background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%) !important;
+}
+
+
+/* ----------------------------------------------------
+   PANEL CARD STYLING
+   ---------------------------------------------------- */
+
+.panel-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 20px;
+    padding: 24px 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    margin-bottom: 24px;
+}
+.panel-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Style default secondary buttons (non-primary) */
+div[data-testid="stButton"] button {
+    background-color: #ffffff !important;
+    color: #475569 !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 12px !important;
+    padding: 8px 16px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+    width: 100% !important;
+}
+div[data-testid="stButton"] button:hover {
+    background-color: #f8fafc !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Primary Form Button Styling */
+.main-action-btn button {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 14px !important;
+    padding: 12px 24px !important;
+    font-size: 15.5px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.25) !important;
+    transition: all 0.2s ease !important;
+    width: 100% !important;
+}
+.main-action-btn button:hover {
+    box-shadow: 0 8px 24px rgba(14, 165, 233, 0.35) !important;
+    transform: translateY(-2px) !important;
+    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%) !important;
+}
+
+
+/* ----------------------------------------------------
+   RESULTS LAYOUT STYLING
+   ---------------------------------------------------- */
+
+.result-image-box {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    padding: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+}
+.result-image-box img {
+    border-radius: 14px;
+}
+
+/* Prediction Badges */
+.disease-badge-container {
+    margin: 16px 0 20px 0;
+}
+.disease-badge {
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.disease-badge-danger {
+    background-color: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.04);
+}
+.disease-badge-warning {
+    background-color: #fffbeb;
+    color: #d97706;
+    border: 1px solid #fde68a;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.04);
+}
+.disease-badge-success {
+    background-color: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.04);
+}
+
+/* Progress Bar (Confidence Meter) */
+.confidence-container {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+}
+.confidence-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.confidence-title {
+    font-weight: 700;
+    font-size: 13.5px;
+    color: #475569;
+}
+.confidence-val {
+    font-weight: 800;
+    font-size: 15.5px;
+    color: #0ea5e9;
+}
+.custom-progress-bg {
+    background-color: #e2e8f0;
+    border-radius: 10px;
+    height: 10px;
+    width: 100%;
+    overflow: hidden;
+}
+.custom-progress-bar {
+    background: linear-gradient(90deg, #0ea5e9 0%, #6366f1 100%);
+    height: 100%;
+    border-radius: 10px;
+}
+
+/* Info Cards (Description / Precautions) */
+.info-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+}
+.info-card-title {
+    font-size: 15.5px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-left: 4px solid #0ea5e9;
+    padding-left: 10px;
+}
+.info-card-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #475569;
+}
+
+
+/* ----------------------------------------------------
+   CHAT INTERFACE STYLING
+   ---------------------------------------------------- */
+
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.chat-workspace-marker) {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 24px !important;
+    padding: 24px !important;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.03) !important;
+    margin-top: 24px !important;
+}
+
+div[data-testid="stMarkdownContainer"]:has(.chat-workspace-marker) {
+    display: none !important;
+}
+.chat-workspace-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 16px;
+    color: #0f172a;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 14px;
+}
+
+/* Chat Guided Interview Progress / Step bar */
+.chat-progress-container {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.01);
+}
+.chat-progress-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569;
+}
+.chat-progress-steps {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+.chat-step-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #cbd5e1;
+}
+.chat-step-dot-active {
+    background-color: #6366f1;
+    box-shadow: 0 0 8px #6366f1;
+}
+.chat-step-dot-completed {
+    background-color: #10b981;
+}
+
+/* Suggestion chips buttons override */
+div[data-testid="stColumn"]:has(.chip-marker) button {
+    background-color: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #475569 !important;
+    border-radius: 20px !important;
+    padding: 6px 12px !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+    transition: all 0.2s ease !important;
+    white-space: normal !important;
+    height: auto !important;
+    min-height: 42px !important;
+}
+div[data-testid="stColumn"]:has(.chip-marker) button:hover {
+    background-color: #e0f2fe !important;
+    border-color: #0ea5e9 !important;
+    color: #0369a1 !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Chat bubble styling overrides */
+div[data-testid="stChatMessage"] {
+    background-color: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 18px !important;
+    padding: 16px !important;
+    margin-bottom: 14px !important;
+}
+
+div[data-testid="stChatMessageContent"] {
+    color: #334155 !important;
+    font-size: 14.5px !important;
+    line-height: 1.6 !important;
+}
+
+/* User chat bubble */
+div[data-testid="stChatMessage"]:nth-child(odd) {
+    background-color: #e0f2fe !important;
+    border: 1px solid #bae6fd !important;
+}
+
+/* Chat Input Bar customization */
+div[data-testid="stChatInput"] {
+    border-radius: 16px !important;
+    border: 1px solid #cbd5e1 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04) !important;
+}
+div[data-testid="stChatInput"] textarea {
+    background-color: transparent !important;
+    color: #0f172a !important;
+}
+div[data-testid="stChatInput"]:focus-within {
+    border-color: #0ea5e9 !important;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15) !important;
+}
+
+/* Remove internal container margin/padding when nested under chat workspace cards */
+div[data-testid="stVerticalBlockBorderWrapper"]:has(.chat-workspace-marker) div[data-testid="stVerticalBlockBorderWrapper"] {
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* Custom Single-Line Chat Styling */
+.chat-message-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.user-row {
+    background-color: #f0fdf4 !important; /* Very light green */
+    border-left: 4px solid #22c55e !important; /* Green accent */
+}
+
+.chatbot-row {
+    background-color: #f8fafc !important; /* Clean light slate */
+    border-left: 4px solid #3b82f6 !important; /* Blue accent */
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+.chat-label {
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    user-select: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 2px 8px !important;
+    border-radius: 6px !important;
+}
+
+.user-label {
+    background-color: #dcfce7 !important;
+    color: #166534 !important;
+}
+
+.chatbot-label {
+    background-color: #dbeafe !important;
+    color: #1e40af !important;
+}
+
+.chat-text {
+    color: #1e293b !important;
+    flex: 1 !important;
+}
+
+.chatbot-content-wrapper {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+
+.chat-disclaimer {
+    font-size: 11.5px !important;
+    color: #64748b !important;
+    background-color: #f1f5f9 !important;
+    border: 1px dashed #cbd5e1 !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    margin-top: 4px !important;
+    line-height: 1.4 !important;
+}
+
+/* Sidebar Styling */
+section[data-testid="stSidebar"] {
+    background-color: #f8fafc !important;
+    border-right: 1px solid #e2e8f0 !important;
+}
+
+/* ChatGPT Sidebar Thread styling */
+section[data-testid="stSidebar"] button {
+    border-radius: 8px !important;
+    text-align: left !important;
+    justify-content: flex-start !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Highlight resume buttons */
+section[data-testid="stSidebar"] div[data-testid="stColumn"]:first-child button {
+    background-color: transparent !important;
+    border: 1px solid transparent !important;
+    color: #475569 !important;
+    font-size: 13.5px !important;
+    padding-left: 8px !important;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stColumn"]:first-child button:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+/* Delete trash icon buttons */
+section[data-testid="stSidebar"] div[data-testid="stColumn"]:last-child button {
+    background-color: transparent !important;
+    border: 1px solid transparent !important;
+    color: #94a3b8 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    justify-content: center !important;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stColumn"]:last-child button:hover {
+    color: #ef4444 !important;
+    background-color: #fee2e2 !important;
+}
+
+/* Custom Selection Mode Buttons in Chatbot welcome screen */
+div[data-testid="stColumn"]:has(.chat-choice-direct-marker) button {
+    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%) !important;
+    color: #0369a1 !important;
+    border: 1px solid #bae6fd !important;
+    border-radius: 20px !important;
+    padding: 8px 16px !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 10px rgba(14, 165, 233, 0.1) !important;
+    transition: all 0.2s ease !important;
+    width: 100% !important;
+}
+
+div[data-testid="stColumn"]:has(.chat-choice-direct-marker) button:hover {
+    box-shadow: 0 6px 15px rgba(14, 165, 233, 0.2) !important;
+    transform: translateY(-2px) !important;
+    background: linear-gradient(135deg, #bae6fd 0%, #7dd3fc 100%) !important;
+}
+
+div[data-testid="stColumn"]:has(.chat-choice-guided-marker) button {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%) !important;
+    color: #065f46 !important;
+    border: 1px solid #a7f3d0 !important;
+    border-radius: 20px !important;
+    padding: 8px 16px !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.1) !important;
+    transition: all 0.2s ease !important;
+    width: 100% !important;
+}
+
+div[data-testid="stColumn"]:has(.chat-choice-guided-marker) button:hover {
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35) !important;
+    transform: translateY(-2px) !important;
+    background: linear-gradient(135deg, #a7f3d0 0%, #6ee7b7 100%) !important;
+}
+
+/* Custom stylized Clear Chat button far right */
+div[data-testid="stColumn"]:has(.chat-clear-marker) button {
+    background-color: #fef2f2 !important; /* Soft rose background */
+    color: #dc2626 !important; /* Crimson red text */
+    border: 1px solid #fecaca !important;
+    border-radius: 12px !important;
+    padding: 6px 14px !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.05) !important;
+}
+
+div[data-testid="stColumn"]:has(.chat-clear-marker) button:hover {
+    background-color: #dc2626 !important; /* Solid crimson background */
+    color: #ffffff !important; /* White text on hover */
+    border-color: #dc2626 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2) !important;
+}
