@@ -677,3 +677,47 @@ div[data-testid="stColumn"]:has(.chat-clear-marker) button:hover {
     transform: translateY(-1px) !important;
     box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2) !important;
 }
+
+/* ----------------------------------------------------
+   STYLIZED NEON CHATBOT BUTTON (AT BOTTOM CENTER)
+   ---------------------------------------------------- */
+
+div[data-testid="stColumn"]:has(.chatbot-btn-marker) button,
+div[data-testid="column"]:has(.chatbot-btn-marker) button,
+div:has(> .chatbot-btn-marker) button,
+div:has(.chatbot-btn-marker) button {
+    background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(167, 139, 250, 0.4) !important;
+    border-radius: 16px !important;
+    padding: 16px 32px !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.25), 0 4px 10px rgba(37, 99, 235, 0.2) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-align: center !important;
+    width: 100% !important;
+}
+
+div[data-testid="stColumn"]:has(.chatbot-btn-marker) button:hover,
+div[data-testid="column"]:has(.chatbot-btn-marker) button:hover,
+div:has(> .chatbot-btn-marker) button:hover,
+div:has(.chatbot-btn-marker) button:hover {
+    transform: translateY(-4px) scale(1.02) !important;
+    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.45), 0 6px 15px rgba(37, 99, 235, 0.35) !important;
+    background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%) !important;
+    color: #ffffff !important;
+}
+
+/* Force all text/labels inside the chatbot button to be white */
+div[data-testid="stColumn"]:has(.chatbot-btn-marker) button *,
+div[data-testid="column"]:has(.chatbot-btn-marker) button *,
+div:has(> .chatbot-btn-marker) button *,
+div:has(.chatbot-btn-marker) button *,
+div[data-testid="stColumn"]:has(.chatbot-btn-marker) button:hover *,
+div[data-testid="column"]:has(.chatbot-btn-marker) button:hover *,
+div:has(> .chatbot-btn-marker) button:hover *,
+div:has(.chatbot-btn-marker) button:hover * {
+    color: #ffffff !important;
+}
