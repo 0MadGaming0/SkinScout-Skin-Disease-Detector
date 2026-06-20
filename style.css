@@ -253,6 +253,7 @@ div[data-testid="stColumn"]:has(.login-card-marker) div[data-testid="stButton"] 
     font-weight: 600;
     border: 1px solid rgba(14, 165, 233, 0.15);
     display: inline-block;
+    margin-top: 0px !important;
 }
 
 /* Logout Button Styling in Navigation */
@@ -300,7 +301,16 @@ div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid=
     justify-content: center !important;
 }
 
-/* Hide empty markdown containers that serve as markers */
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) div.element-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Hide empty element containers that serve as markers */
+div.element-container:has(.nav-logout-marker),
+div.element-container:has(.nav-history-marker),
 div[data-testid="stMarkdownContainer"]:has(.nav-logout-marker),
 div[data-testid="stMarkdownContainer"]:has(.nav-history-marker) {
     display: none !important;
