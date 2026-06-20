@@ -683,9 +683,7 @@ div[data-testid="stColumn"]:has(.chat-clear-marker) button:hover {
    ---------------------------------------------------- */
 
 div[data-testid="stColumn"]:has(.chatbot-btn-marker) button,
-div[data-testid="column"]:has(.chatbot-btn-marker) button,
-div:has(> .chatbot-btn-marker) button,
-div:has(.chatbot-btn-marker) button {
+div[data-testid="column"]:has(.chatbot-btn-marker) button {
     background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%) !important;
     color: #ffffff !important;
     border: 1px solid rgba(167, 139, 250, 0.4) !important;
@@ -701,9 +699,7 @@ div:has(.chatbot-btn-marker) button {
 }
 
 div[data-testid="stColumn"]:has(.chatbot-btn-marker) button:hover,
-div[data-testid="column"]:has(.chatbot-btn-marker) button:hover,
-div:has(> .chatbot-btn-marker) button:hover,
-div:has(.chatbot-btn-marker) button:hover {
+div[data-testid="column"]:has(.chatbot-btn-marker) button:hover {
     transform: translateY(-4px) scale(1.02) !important;
     box-shadow: 0 10px 25px rgba(124, 58, 237, 0.45), 0 6px 15px rgba(37, 99, 235, 0.35) !important;
     background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%) !important;
@@ -713,11 +709,7 @@ div:has(.chatbot-btn-marker) button:hover {
 /* Force all text/labels inside the chatbot button to be white */
 div[data-testid="stColumn"]:has(.chatbot-btn-marker) button *,
 div[data-testid="column"]:has(.chatbot-btn-marker) button *,
-div:has(> .chatbot-btn-marker) button *,
-div:has(.chatbot-btn-marker) button *,
 div[data-testid="stColumn"]:has(.chatbot-btn-marker) button:hover *,
-div[data-testid="column"]:has(.chatbot-btn-marker) button:hover *,
-div:has(> .chatbot-btn-marker) button:hover *,
-div:has(.chatbot-btn-marker) button:hover * {
+div[data-testid="column"]:has(.chatbot-btn-marker) button:hover * {
     color: #ffffff !important;
 }
