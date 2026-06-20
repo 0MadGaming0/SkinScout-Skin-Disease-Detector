@@ -396,7 +396,6 @@ div[data-testid="stColumn"]:has(.card-marker-history) button:hover {
     box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4) !important;
     transform: translateY(-2px) !important;
 }
-}
 .chat-workspace-header {
     display: flex;
     align-items: center;
