@@ -238,26 +238,32 @@ div[data-testid="stColumn"]:has(.login-card-marker) div[data-testid="stButton"] 
    ---------------------------------------------------- */
 
 .nav-container-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 0;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 0 !important;
+    height: 38px !important;
+    box-sizing: border-box !important;
 }
 
 .nav-user-badge {
-    background-color: #f1f5f9;
-    color: #0284c7;
-    padding: 6px 14px;
-    border-radius: 30px;
-    font-size: 13px;
-    font-weight: 600;
-    border: 1px solid rgba(14, 165, 233, 0.15);
-    display: inline-block;
+    background-color: transparent !important;
+    color: #0ea5e9 !important;
+    padding: 6px 14px !important;
+    border-radius: 12px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    border: 1px solid rgba(14, 165, 233, 0.4) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     margin-top: 0px !important;
+    box-sizing: border-box !important;
+    height: 38px !important;
 }
 
 /* Logout Button Styling in Navigation */
-div[data-testid="stColumn"]:has(.nav-logout-marker) button {
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"]:nth-child(4) button {
     background-color: transparent !important;
     color: #ef4444 !important;
     border: 1px solid rgba(239, 68, 68, 0.4) !important;
@@ -267,16 +273,21 @@ div[data-testid="stColumn"]:has(.nav-logout-marker) button {
     font-weight: 600 !important;
     transition: all 0.2s ease !important;
     box-shadow: none !important;
-    margin-top: 0px !important; /* Centered natively via flex container */
+    margin-top: 0px !important;
+    box-sizing: border-box !important;
+    height: 38px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
-div[data-testid="stColumn"]:has(.nav-logout-marker) button:hover {
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"]:nth-child(4) button:hover {
     background-color: #fef2f2 !important;
     border-color: #ef4444 !important;
     transform: translateY(-1px) !important;
 }
 
 /* History Button Styling in Navigation */
-div[data-testid="stColumn"]:has(.nav-history-marker) button {
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"]:nth-child(3) button {
     background-color: transparent !important;
     color: #7c3aed !important;
     border: 1px solid rgba(124, 58, 237, 0.4) !important;
@@ -287,33 +298,67 @@ div[data-testid="stColumn"]:has(.nav-history-marker) button {
     transition: all 0.2s ease !important;
     box-shadow: none !important;
     margin-top: 0px !important;
+    box-sizing: border-box !important;
+    height: 38px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
-div[data-testid="stColumn"]:has(.nav-history-marker) button:hover {
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"]:nth-child(3) button:hover {
     background-color: #f3e8ff !important;
     border-color: #7c3aed !important;
     transform: translateY(-1px) !important;
 }
 
-/* Ensure all contents in the navbar columns are centered vertically and aligned */
+/* Ensure all contents in the navbar columns are centered vertically and aligned on a single line */
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) {
+    display: flex !important;
+    flex-flow: row nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+}
+
 div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"] {
     display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-}
-
-div[data-testid="stHorizontalBlock"]:has(.nav-container-left) div.element-container {
+    flex-direction: row !important;
+    align-items: center !important;
+    height: 38px !important;
     margin: 0 !important;
     padding: 0 !important;
-    display: flex !important;
-    align-items: center !important;
 }
 
-/* Hide empty element containers that serve as markers */
-div.element-container:has(.nav-logout-marker),
-div.element-container:has(.nav-history-marker),
-div[data-testid="stMarkdownContainer"]:has(.nav-logout-marker),
-div[data-testid="stMarkdownContainer"]:has(.nav-history-marker) {
-    display: none !important;
+/* App logo & page name takes the remaining space on left */
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"]:nth-child(1) {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    justify-content: flex-start !important;
+}
+
+/* Right-side navigation columns fit tightly around their contents */
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"]:nth-child(2),
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"]:nth-child(3),
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"]:nth-child(4) {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    justify-content: flex-end !important;
+}
+
+/* Align navigation items vertically by resetting margins/heights of all nested wrapper containers */
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"] div.element-container,
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"] div.stElementContainer,
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"] [data-testid="element-container"],
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"] div.stMarkdown,
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"] div.stButton,
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"] div[data-testid="stMarkdownContainer"],
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"] div[data-testid="stMarkdownContainer"] p,
+div[data-testid="stHorizontalBlock"]:has(.nav-container-left) > div[data-testid="stColumn"] div[data-testid="stButton"] {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 38px !important;
+    display: flex !important;
+    align-items: center !important;
 }
 
 /* Remove button bottom/top margin in navigation header */
@@ -727,4 +772,127 @@ div[data-testid="column"]:has(.chatbot-btn-marker) button *,
 div[data-testid="stColumn"]:has(.chatbot-btn-marker) button:hover *,
 div[data-testid="column"]:has(.chatbot-btn-marker) button:hover * {
     color: #ffffff !important;
+}
+
+/* ----------------------------------------------------
+   DISEASE RISK BADGE STYLING
+   ---------------------------------------------------- */
+
+.disease-badge-container {
+    margin: 1.5rem 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.disease-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 10px 22px !important;
+    border-radius: 9999px !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.2px !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid transparent !important;
+    transition: all 0.2s ease !important;
+}
+
+.disease-badge:hover {
+    transform: translateY(-1px) !important;
+}
+
+.disease-badge-danger {
+    background-color: #fee2e2 !important; /* Soft light red */
+    color: #ef4444 !important; /* Premium Red */
+    border-color: rgba(239, 68, 68, 0.2) !important;
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.15) !important;
+}
+
+.disease-badge-warning {
+    background-color: #fef3c7 !important; /* Soft light amber */
+    color: #d97706 !important; /* Premium Amber */
+    border-color: rgba(245, 158, 11, 0.2) !important;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.15) !important;
+}
+
+.disease-badge-success {
+    background-color: #d1fae5 !important; /* Soft light green */
+    color: #10b981 !important; /* Premium Green */
+    border-color: rgba(16, 185, 129, 0.2) !important;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15) !important;
+}
+
+/* ----------------------------------------------------
+   CONFIDENCE PROGRESS BAR STYLING
+   ---------------------------------------------------- */
+
+.confidence-container {
+    margin: 1.5rem 0 !important;
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 16px 20px !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.01) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.confidence-label-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 8px !important;
+}
+
+.confidence-title {
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+}
+
+.confidence-val {
+    font-size: 14.5px !important;
+    font-weight: 800 !important;
+}
+
+.confidence-val-danger {
+    color: #ef4444 !important;
+}
+
+.confidence-val-warning {
+    color: #d97706 !important;
+}
+
+.confidence-val-success {
+    color: #10b981 !important;
+}
+
+.custom-progress-bg {
+    background-color: #f1f5f9 !important;
+    border-radius: 9999px !important;
+    height: 10px !important;
+    overflow: hidden !important;
+    width: 100% !important;
+}
+
+.custom-progress-bar {
+    height: 100% !important;
+    border-radius: 9999px !important;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.custom-progress-bar-danger {
+    background: linear-gradient(90deg, #ef4444 0%, #f97316 100%) !important;
+}
+
+.custom-progress-bar-warning {
+    background: linear-gradient(90deg, #f59e0b 0%, #eab308 100%) !important;
+}
+
+.custom-progress-bar-success {
+    background: linear-gradient(90deg, #10b981 0%, #059669 100%) !important;
 }

@@ -65,7 +65,27 @@ def render_chat_message(role, content):
         main_text_html = markdown_to_html(main_text)
         st.markdown(f'<div class="chat-message-row chatbot-row"><div><span class="chat-label chatbot-label">🤖 chatbot</span></div><div class="chatbot-content-wrapper"><span class="chat-text chatbot-text">{main_text_html}</span>{disclaimer_html}</div></div>', unsafe_allow_html=True)
 
-GROQ_API_KEY = "    YOUR_GROQ_API_KEY    "
+# Load API Key from environment, .env file, or streamlit secrets
+def load_groq_api_key():
+    key = os.getenv("GROQ_API_KEY")
+    if key:
+        return key
+    if os.path.exists(".env"):
+        try:
+            with open(".env", "r") as f:
+                for line in f:
+                    if line.startswith("GROQ_API_KEY="):
+                        return line.strip().split("=", 1)[1].strip('"\'')
+        except Exception:
+            pass
+    try:
+        if "GROQ_API_KEY" in st.secrets:
+            return st.secrets["GROQ_API_KEY"]
+    except Exception:
+        pass
+    return ""
+
+GROQ_API_KEY = load_groq_api_key()
 client = Groq(api_key=GROQ_API_KEY)
 
 st.set_page_config(page_title="SkinScout - Skin Disease Detection", layout="wide")
@@ -208,6 +228,10 @@ def render_sidebar():
                     if "General" in disease_name:
                         st.session_state.home_messages = list(messages)
                         st.session_state.chat_step = 6
+                        if "uploaded_image" in st.session_state:
+                            del st.session_state.uploaded_image
+                        if "uploaded_image_path" in st.session_state:
+                            del st.session_state.uploaded_image_path
                         st.session_state.page = "general_chatbot"
                     else:
                         is_scanner = False
@@ -240,6 +264,10 @@ def render_sidebar():
                             st.session_state.symptoms_description = disease_info.get(disease_key, "No description available.")
                             st.session_state.symptoms_precautions = "• Keep the area clean\n• Avoid direct friction or itching\n• Consult a clinical dermatologist"
                             st.session_state.symptoms_analyzed = True
+                            if "uploaded_image" in st.session_state:
+                                del st.session_state.uploaded_image
+                            if "uploaded_image_path" in st.session_state:
+                                del st.session_state.uploaded_image_path
                             st.session_state.page = "symptoms"
                     st.rerun()
             
@@ -271,7 +299,7 @@ def render_sidebar():
 # Global Navbar Component
 def render_header(page_title):
     if st.session_state.get("logged_in") and st.session_state.page != "login":
-        col_title, col_user, col_hist, col_logout = st.columns([6.8, 1.0, 1.1, 1.1])
+        col_title, col_user, col_hist, col_logout = st.columns([7.0, 1.0, 1.0, 1.0])
         with col_title:
             st.markdown(f"""
                 <div class="nav-container-left">
@@ -284,16 +312,14 @@ def render_header(page_title):
         with col_user:
             st.markdown(f"""
                 <div style="text-align: right; display: flex; align-items: center; justify-content: flex-end; height: 100%;">
-                    <span class="nav-user-badge" style="margin-top: 4px;">👤 {st.session_state.username}</span>
+                    <span class="nav-user-badge">👤 {st.session_state.username}</span>
                 </div>
             """, unsafe_allow_html=True)
         with col_hist:
-            st.markdown('<div class="nav-history-marker"></div>', unsafe_allow_html=True)
             if st.button("📜 History", key="global_history_btn"):
                 st.session_state.page = "history"
                 st.rerun()
         with col_logout:
-            st.markdown('<div class="nav-logout-marker"></div>', unsafe_allow_html=True)
             if st.button("🚪 Logout", key="global_logout_btn"):
                 st.session_state.logged_in = False
                 st.session_state.page = "login"
@@ -405,6 +431,10 @@ elif st.session_state.page == "home":
                 del st.session_state.symptoms_analyzed
             if "symptoms_messages" in st.session_state:
                 del st.session_state.symptoms_messages
+            if "uploaded_image" in st.session_state:
+                del st.session_state.uploaded_image
+            if "uploaded_image_path" in st.session_state:
+                del st.session_state.uploaded_image_path
             if "session_timestamp" in st.session_state:
                 del st.session_state.session_timestamp
             st.rerun()
@@ -793,6 +823,23 @@ elif st.session_state.page == "scanner":
             st.session_state.disease = classes[predicted.item()]
             st.session_state.confidence = confidence.item() * 100
             st.session_state.uploaded_image = image_source
+            
+            # Initialize assistant's initial message and auto-save consultation to history
+            display_name = display_names.get(st.session_state.disease, st.session_state.disease)
+            st.session_state.messages = [
+                {
+                    "role": "assistant",
+                    "content": (
+                        f"👋 I have analyzed your image and detected **{display_name}** (Confidence: {st.session_state.confidence:.2f}%).\n\n"
+                        f"To help provide relevant context, could you share a few details about the lesion?\n"
+                        f"1. **Is the spot painful, itchy, bleeding, or completely asymptomatic?**\n"
+                        f"2. **Have you noticed any recent changes in its size, border shape, or color?**\n"
+                        f"3. **Have you consulted a dermatologist about this spot before?**"
+                    )
+                }
+            ]
+            save_chat_history(display_name, st.session_state.messages)
+            
             st.session_state.page = "result"
             st.rerun()
         else:
@@ -873,6 +920,20 @@ elif st.session_state.page == "symptoms":
                 description = "A common non-cancerous skin growth that may cause itching or dry skin."
                 precautions = "• Keep skin moisturized\n• Avoid scratching\n• Consult a dermatologist if symptoms worsen"
 
+            # Calculate symptom match confidence based on keyword matches
+            confidence = 50.0
+            if prediction == "Melanoma":
+                matches = sum(1 for kw in ["mole", "dark", "bleeding"] if kw in symptoms_lower)
+                confidence = 65.0 + (matches * 10.0)
+            elif prediction == "Actinic Keratoses":
+                matches = sum(1 for kw in ["red", "scaly", "rough"] if kw in symptoms_lower)
+                confidence = 60.0 + (matches * 10.0)
+            elif prediction == "Benign Keratosis":
+                matches = sum(1 for kw in ["itching", "dry"] if kw in symptoms_lower)
+                confidence = 60.0 + (matches * 15.0)
+            else:
+                confidence = 30.0
+
             st.session_state.symptoms_analyzed = True
             st.session_state.symptoms_prediction = prediction
             st.session_state.symptoms_description = description
@@ -880,7 +941,22 @@ elif st.session_state.page == "symptoms":
             st.session_state.symptoms_age = age
             st.session_state.symptoms_duration = duration
             st.session_state.symptoms_location = location
-            st.session_state.symptoms_messages = []
+            st.session_state.symptoms_confidence = confidence
+            
+            # Initialize assistant's initial message and auto-save consultation to history
+            st.session_state.symptoms_messages = [
+                {
+                    "role": "assistant",
+                    "content": (
+                        f"👋 Based on your symptoms, there is a potential match for **{prediction}**.\n\n"
+                        f"To help clarify this condition, could you answer a few quick questions?\n"
+                        f"1. **How long have you noticed these symptoms (e.g. days, weeks, months)?**\n"
+                        f"2. **Is the affected area itchy, scaly, red, or painful?**\n"
+                        f"3. **Have you been exposed to prolonged sunlight or new skincare products recently?**"
+                    )
+                }
+            ]
+            save_chat_history(prediction, st.session_state.symptoms_messages)
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
@@ -906,6 +982,30 @@ elif st.session_state.page == "symptoms":
                     <div class="{badge_class}">
                         <span>{badge_icon}</span>
                         <span>Potential Match: {pred}</span>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+
+            # Retrieve symptoms confidence with a fallback
+            symptoms_confidence = st.session_state.get("symptoms_confidence")
+            if not symptoms_confidence:
+                fallback_map = {
+                    "Melanoma": 85.0,
+                    "Actinic Keratoses": 75.0,
+                    "Benign Keratosis": 70.0,
+                    "Unable to Determine": 30.0
+                }
+                symptoms_confidence = fallback_map.get(pred, 75.0)
+
+            # Symptoms Confidence progress bar
+            st.markdown(f"""
+                <div class="confidence-container">
+                    <div class="confidence-label-row">
+                        <span class="confidence-title">Symptom Match Confidence</span>
+                        <span class="confidence-val confidence-val-{symptom_risk}">{symptoms_confidence:.2f}%</span>
+                    </div>
+                    <div class="custom-progress-bg">
+                        <div class="custom-progress-bar custom-progress-bar-{symptom_risk}" style="width: {symptoms_confidence}%;"></div>
                     </div>
                 </div>
             """, unsafe_allow_html=True)
@@ -1068,10 +1168,10 @@ elif st.session_state.page == "result":
             <div class="confidence-container">
                 <div class="confidence-label-row">
                     <span class="confidence-title">Model Confidence Score</span>
-                    <span class="confidence-val">{confidence:.2f}%</span>
+                    <span class="confidence-val confidence-val-{risk_level}">{confidence:.2f}%</span>
                 </div>
                 <div class="custom-progress-bg">
-                    <div class="custom-progress-bar" style="width: {confidence}%;"></div>
+                    <div class="custom-progress-bar custom-progress-bar-{risk_level}" style="width: {confidence}%;"></div>
                 </div>
             </div>
         """, unsafe_allow_html=True)
@@ -1344,6 +1444,10 @@ elif st.session_state.page == "history":
                         if "General" in disease_name:
                             st.session_state.home_messages = list(messages)
                             st.session_state.chat_step = 6
+                            if "uploaded_image" in st.session_state:
+                                del st.session_state.uploaded_image
+                            if "uploaded_image_path" in st.session_state:
+                                del st.session_state.uploaded_image_path
                             st.session_state.page = "general_chatbot"
                         else:
                             # Check whether it is a scanner or symptoms checker
@@ -1378,6 +1482,10 @@ elif st.session_state.page == "history":
                                 st.session_state.symptoms_description = disease_info.get(disease_key, "No description available.")
                                 st.session_state.symptoms_precautions = "• Keep the area clean\n• Avoid direct friction or itching\n• Consult a clinical dermatologist"
                                 st.session_state.symptoms_analyzed = True
+                                if "uploaded_image" in st.session_state:
+                                    del st.session_state.uploaded_image
+                                if "uploaded_image_path" in st.session_state:
+                                    del st.session_state.uploaded_image_path
                                 st.session_state.page = "symptoms"
 
                         st.success("Resumed successfully!")
